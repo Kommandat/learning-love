@@ -1,0 +1,32 @@
+-- A TriangleCollection Class contains its own triangles and total area.
+TriangleCollection = Class{
+    
+    init = function(self)
+        shapes = {}
+        area = 0
+    end
+
+    function addShape(triangle) 
+        table.insert(triangle)
+        area += triangle.getArea()
+    end
+}
+
+-- A Triangle contains its vertices, color and area
+Triangle = Class{
+    
+    init = function(self, vertices, color)
+        self.vertices = vertices
+        self.color = color
+    end
+
+    function getArea()
+        ax = vertices[1].x
+        ay = vertices[1].y
+
+        bx = vertices[2].x
+        by = vertices[2].y
+
+        
+    end
+}
