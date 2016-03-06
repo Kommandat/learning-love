@@ -148,8 +148,8 @@ function initPlayer()
     objects.player.fixture = love.physics.newFixture(objects.player.body,
                                                      objects.player.triangles[1].shape, 1)
 
-    local ear = love.physics.newPolygonShape(ax, ay, bx, by, -20, 46.188)
-    love.physics.newFixture(objects.player.body, ear, 1)
+    -- local ear = love.physics.newPolygonShape(ax, ay, bx, by, -20, 46.188)
+    -- love.physics.newFixture(objects.player.body, ear, 1)
 
     for i, fixture in ipairs(objects.player.body:getFixtureList()) do
         fixture:setUserData(0)
@@ -205,14 +205,20 @@ function cleanUp()
         table.remove(remFixtures, i)
         addEnemy()
     end
-
 end
 
 function addEars()
     for i, ear in ipairs(toAdd) do
         print("reached")
         table.remove(toAdd, i)
-        objects.player.fixture = love.physics.newFixture(objects.player.body, ear, 1)
+        local fix = love.physics.newFixture(objects.player.body, ear, 1) 
+        fix:setUserData(0)
+
+        for i,fixture in ipairs(objects.player.body:getFixtureList()) do
+            print(fixture:getUserData())
+        end
+
+        print("\n")
     end
 end
 
@@ -240,6 +246,8 @@ function beginContact(a, b, coll)
         -- Find two nearest vertices in fixture a
         local new_v1, new_v2 = findTwoNearest(vertices, col)
 
+        print(new_v1.x .. ", " .. new_v1.y .. " and " .. new_v2.x .. ", " .. new_v2.y )
+
         -- Find third vertex that provides the necessary area
         local new_v3 = findEarVertex(new_v1, new_v2, area, a)
 
@@ -249,7 +257,6 @@ function beginContact(a, b, coll)
 
         table.insert(remFixtures, b)
         table.insert(toAdd, ear)
-
 
     elseif (a:getUserData() == "player") then
 
